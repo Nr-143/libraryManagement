@@ -7,16 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Signup = () => {
+  
+
+
   const navigate = useNavigate();
   const [loginfo, setloginfo] = useState({
-    firstname: "",
-    secondname: "",
-    username: "",
+    name: "",
+    regno: "",
+    year: "",
+    department:"",
     password: "",
     email: "",
   });
 
-  const { firstname, secondname, username, password, email } = loginfo;
+  const { name, regno, year, department,password, email } = loginfo;
   const onInputChange = (e) => {
     setloginfo({ ...loginfo, [e.target.name]: e.target.value });
   };
@@ -24,7 +28,7 @@ const Signup = () => {
   const onSave = async (e) => {
     e.preventDefault();
     try {
-      if (firstname && secondname && username && password && email) {
+      if (name && regno && (year<5 && year>0 )&& password && email) {
         await axios.post("http://localhost:8080/postlogin", loginfo);
         toast.success("Successfully Updated ");
         navigate("/maindashboard-user");
@@ -54,30 +58,48 @@ const Signup = () => {
               <b>Sign up</b>
             </Card.Title>
             <div className="lables">
-              <label>First Name</label>
+              <label>Name</label>
               <input
                 type="text"
-                value={firstname}
-                name="firstname"
+                value={name}
+                name="name"
                 onChange={onInputChange}
                 required
               />
-              <label>Second Name</label>
+              <label>Reg no</label>
               <input
                 type="text"
-                value={secondname}
-                name="secondname"
+                value={regno}
+                name="regno"
                 onChange={onInputChange}
                 required
               />
-              <label>UserName</label>
+              <div style={{display:"flex",marginTop:"20px",gap:"5px"}}>
+              <div style={{display:"flex",flexDirection:"column"}}>
+              <label>Department</label>
               <input
+                
+                 style={{width:"116px",marginLeft:"25px",marginRight:"8px",marginTop:"3px"}}
                 type="text"
-                value={username}
-                name="username"
+                value={department}
+                name="department"
                 onChange={onInputChange}
                 required
               />
+            </div>
+            <div style={{display:"flex",flexDirection:"column",marginLeft:"32px"}}>
+              <label >  Year </label>
+              <input
+              style={{width:"70px",marginTop:"3px"}}
+                type="text"
+                value={year}
+                name="year"
+                onChange={onInputChange}
+                required
+              />
+              </div>
+              
+              </div> 
               <label> Email</label>
               <input
                 type="text"

@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import mitimg from "../assets/images/miet.png";
-import { useDashboardcontext } from "./Mainlayout";
+import mitimg from "../../assets/images/miet.png";
+import { useDashboardcontext } from "../Mainlayout";
+import TimingContact from "./TimingContact";
 
 function NavScrollExample() {
   const signinfo1 = useDashboardcontext();
@@ -16,10 +17,16 @@ function NavScrollExample() {
         <img src={mitimg} alt="logo" height="50px" width="60px" />
         <Container fluid>
           <Navbar.Brand href="#">
-            <b style={{ fontFamily: "initial" }}>
+            <b style={{ fontFamily: "initial", color: "#2D4356" }}>
               MAHENDRA INSTITUTE OF TECHNOLOGY
               <br />
-              <h6 style={{ fontSize: "14px", fontWeight: "bold" }}>
+              <h6
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: "#512B81",
+                }}
+              >
                 {" "}
                 Accredited by NAAC with 'A' Grade | Approved by AICTE, New Delhi
                 |Affiliated to Anna University,Chennai
@@ -36,9 +43,9 @@ function NavScrollExample() {
               <Nav.Link href="/maindashboard-user" className="navcss one">
                 Home
               </Nav.Link>
-              {/* <Nav.Link href="/maindashboard-user/books" className="navcss">
+              <Nav.Link href="/maindashboard-user/Userbooks" className="navcss">
                 Books
-              </Nav.Link> */}
+              </Nav.Link>
               <Nav.Link href="/maindashboard-user/about" className="navcss">
                 Resources
               </Nav.Link>
@@ -46,8 +53,12 @@ function NavScrollExample() {
                 Module
               </Nav.Link>
 
-              <Nav.Link href="/" className="navcss">
-                LOGIN
+              <Nav.Link
+                href="/"
+                className="navcss"
+                style={{ background: "red", color: "white" }}
+              >
+                Logout
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -57,7 +68,6 @@ function NavScrollExample() {
       <marquee className="marque">
         <b style={{ color: "yellow" }}>Today News :</b> NEET UG 2024
         registration begins direct link to apply..
-        {/* <b style={{ color: "yellow" }}>Today News :</b> Nirmal ran with two aunties each aunties having two children.. if you see nirmal please contact ph.no420.... */}
         <a
           href="https://www.gmrit.org/neet-ug-application-form/"
           style={{ color: "aqua" }}

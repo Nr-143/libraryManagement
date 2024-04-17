@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 const Returned = () => {
   const [user, setUser] = useState([]);
   // const [bookcode, setCheck] = useState([{bookcode:" "}]);
-  
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -38,7 +38,7 @@ const Returned = () => {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Form inline>
             <Row>
-            <Col xs="auto">
+              <Col xs="auto">
                 <Form.Control
                   type="text"
                   // value={bookcode}
@@ -72,20 +72,23 @@ const Returned = () => {
             </tr>
           </thead>
           <tbody>
-            {user.map((users, index) => (
-              <tr Key={index}>
-                <td>{index + 1}</td>
-                <td>{users.book_name}</td>
-                <td>{users.author_name}</td>
-                <td>{users.book_code}</td>
-                <td>{users.date}</td>
-                <td>{users.date2}</td>
-                <td>{users.student_name}</td>
-                <td>{users.reg_no}</td>
-                <td>{users.department}</td>
-                <td>{users.mobile_no}</td>
-              </tr>
-            ))}
+            {user
+              .slice(0)
+              .reverse()
+              .map((users, index) => (
+                <tr Key={index}>
+                  <td>{index + 1}</td>
+                  <td>{users.book_name}</td>
+                  <td>{users.author_name}</td>
+                  <td>{users.book_code}</td>
+                  <td>{users.date}</td>
+                  <td>{users.date2}</td>
+                  <td>{users.student_name}</td>
+                  <td>{users.reg_no}</td>
+                  <td>{users.department}</td>
+                  <td>{users.mobile_no}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import NavScrollExample from "./NavscrollExample";
+import Adminnav from "./Admainnav";
 import { toast } from "react-toastify";
 
 const Edituser = () => {
@@ -47,7 +47,7 @@ const Edituser = () => {
         book_name &&
         author_name &&
         book_code &&
-        date&&
+        date &&
         date2 &&
         student_name &&
         reg_no &&
@@ -56,10 +56,9 @@ const Edituser = () => {
       ) {
         await axios.put(`http://localhost:8080/post/${id}`, user);
         toast.success("Updated");
-        navigate("/books");
-      }
-      else{
-        toast.error("Fill all the required fields")
+        navigate("/maindashboard-admin");
+      } else {
+        toast.error("Fill all the required fields");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -79,10 +78,10 @@ const Edituser = () => {
 
   return (
     <div>
-      <NavScrollExample />
-      <div className="addborrow">
-        <div className="bookCard">
-          <Card style={{ width: "20rem", height: "25rem" }}>
+      <Adminnav />
+      <div className="addborrow2">
+        <div className="bookCard2">
+          <Card style={{ width: "20rem", height: "26rem" }}>
             <Card.Body>
               <div className="uploadcard">
                 <label>Enter book name</label>
@@ -92,6 +91,7 @@ const Edituser = () => {
                   name="book_name"
                   value={book_name}
                   onChange={onInputChange}
+                  readOnly
                 />
                 <label>Enter author name</label>
                 <input
@@ -100,6 +100,7 @@ const Edituser = () => {
                   name="author_name"
                   value={author_name}
                   onChange={onInputChange}
+                  readOnly
                 />
                 <label>Book CODE</label>
                 <input
@@ -108,6 +109,7 @@ const Edituser = () => {
                   name="book_code"
                   value={book_code}
                   onChange={onInputChange}
+                  readOnly
                 />
                 <label>Date of borrowed</label>
                 <input
@@ -116,8 +118,9 @@ const Edituser = () => {
                   name="date"
                   value={date}
                   onChange={onInputChange}
+                  readOnly
                 />
-                <label>Return Date</label>
+                <label style={{color:"#4CCD99"}}>Return Date *</label>
                 <input
                   type="date"
                   placeholder=""
@@ -130,8 +133,8 @@ const Edituser = () => {
           </Card>
         </div>
 
-        <div className="bookCard">
-          <Card style={{ width: "20rem", height: "25rem" }}>
+        <div className="bookCard2">
+          <Card style={{ width: "20rem", height: "26rem" }}>
             <Card.Body>
               <div className="uploadcard">
                 <label>Student</label>
@@ -141,7 +144,9 @@ const Edituser = () => {
                   name="student_name"
                   value={student_name}
                   onChange={onInputChange}
-                />
+               readOnly
+          
+          />
                 <label>Reg NO</label>
                 <input
                   type="number"
@@ -149,6 +154,8 @@ const Edituser = () => {
                   name="reg_no"
                   value={reg_no}
                   onChange={onInputChange}
+                  
+              readOnly
                 />
                 <label>Department</label>
                 <input
@@ -157,6 +164,7 @@ const Edituser = () => {
                   name="department"
                   value={department}
                   onChange={onInputChange}
+                  readOnly
                 />
                 <label>Mobile number</label>
                 <input
@@ -165,6 +173,7 @@ const Edituser = () => {
                   name="mobile_no"
                   value={mobile_no}
                   onChange={onInputChange}
+                  readOnly
                 />
 
                 <Button

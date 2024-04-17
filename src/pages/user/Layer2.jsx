@@ -1,19 +1,19 @@
 import Carousel from "react-bootstrap/Carousel";
-import Carousel1 from "../assets/images/carousel1.jpg";
-import Carousel2 from "../assets/images/Carousel2.jpg";
-import Carousel3 from "../assets/images/Carousel3.jpg";
-import NavScrollExample from "../pages/NavscrollExample";
-
+import Carousel1 from "../../assets/images/Carousel1.jpg";
+import Carousel2 from "../../assets/images/Carousel2.jpg";
+import Carousel3 from "../../assets/images/Carousel3.jpg";
+import NavScrollExample from "./NavscrollExample";
+import TimingContact from "./TimingContact";
 
 function Layer2() {
-
   return (
     <div>
       <NavScrollExample />
-      
+      <TimingContact />
+
       <div className="container">
         <Carousel>
-          <Carousel.Item interval={1000}>
+          <Carousel.Item interval={5000}>
             <img src={Carousel1} height={560} width={900}></img>
             <Carousel.Caption>
               <h3>
@@ -23,7 +23,7 @@ function Layer2() {
               <h6>― Shelby Foote</h6>
             </Carousel.Caption>
           </Carousel.Item>
-          <Carousel.Item interval={500}>
+          <Carousel.Item interval={5000}>
             {/* <ExampleCarousel.Image text="Second slide" /> */}
             <img src={Carousel2}></img>
             <Carousel.Caption>
@@ -34,7 +34,7 @@ function Layer2() {
               <h6>― Lauren Ward</h6>
             </Carousel.Caption>
           </Carousel.Item>
-          <Carousel.Item>
+          <Carousel.Item interval={5000}>
             {/* <ExampleCarouselImage text="Third slide" /> */}
             <img src={Carousel3}></img>
             <Carousel.Caption>
@@ -82,7 +82,7 @@ function Layer2() {
           </div>
         </div>
       </div>
-      <p style={{ textAlign: "center", marginTop: "40px" }}>
+      <p style={{ textAlign: "center", marginTop: "9px" }}>
         Web designed by <b style={{ color: "#37B5B6" }}> @TECH WIZARD'S</b>
       </p>
     </div>

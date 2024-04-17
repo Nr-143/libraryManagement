@@ -20,12 +20,14 @@ const Login = () => {
   };
 
   const onSave = () => {
-    if (user && password) {
+    if (user == "Admin" && password == "Admin1234") {
+      navigate("/maindashboard-admin");
+    } else if (user && password) {
       const userExists = signinfo.find(
         (userInfo) => userInfo.email === user && userInfo.password === password
       );
       if (userExists) {
-        console.log("user"+userExists);
+        console.log("user" + userExists);
         navigate("/maindashboard-user");
         toast.success("user logged in ");
       } else {
@@ -61,6 +63,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 name="password"
+                variant="outlined"
                 onChange={onInputChange}
               />
               <div className="check"></div>
