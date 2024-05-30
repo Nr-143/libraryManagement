@@ -29,13 +29,13 @@ const Login = () => {
       if (userExists) {
         console.log("user" + userExists);
         navigate("/maindashboard-user");
-        toast.success("user logged in ");
+        toast.success("user logged in ",{position:"top-center"});
       } else {
-        toast.error("user doesn't exists");
+        toast.error("user doesn't exists",{position:"top-center"});
         console.log("User not found");
       }
     } else {
-      toast.error("Fill All The Field");
+      toast.error("Fill All The Field",{position:"top-center"});
     }
   };
 

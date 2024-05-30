@@ -1,4 +1,4 @@
-import React from "react";
+  import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,7 +24,6 @@ import Adminresource from "./pages/Admin/Adminresource";
 
 import Mainlayout, { loader as mainLoader } from "./pages/Mainlayout";
 import TimingContact2 from "./pages/Admin/TimingContact2";
-// import { action as adminResourceAction } from "./pages/Admin/Adminresource";
 
 const router = createBrowserRouter([
   {

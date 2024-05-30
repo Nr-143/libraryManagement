@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const Borrowed = () => {
   const currentDate = new Date();
@@ -12,38 +14,59 @@ const Borrowed = () => {
   const tdyDate = `${year1}-${month < 10 ? "0" + month : month}-${
     date1 < 10 ? "0" + date1 : date1
   }`;
-
+  const [usercheck, setUserCheck] = useState({});
   const [users, setUsers] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const sendMessage = async (
-    student_name,
-    author_name,
-    book_name,
-    mobile_no
-  ) => {
+  const accountSid = "AC65b59524118996a67f4345ba9c34d262";
+  const authToken = "a0c162d785c8c9e93bd19c3035c8ada1";
+  const twilioPhoneNumber = "+12513090523"; // Your Twilio phone number
+
+  const handleReturnConfirmation = async (userId) => {
+    setSelectedUserId(userId);
+    try {
+      const response = await axios.get(`http://localhost:8080/get/${userId}`);
+      setUserCheck(response.data);
+      setModalShow(true);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  const handleReturn = () => {
+    updateUserData(selectedUserId);
+    setModalShow(false);
+  };
+
+  const sendMessage = async (student_name, author_name, book_name, mobile_no) => {
     try {
       const response = await axios.post(
-        `https://api.twilio.com/2010-04-01/Accounts/AC65b59524118996a67f4345ba9c34d262/Messages.json`,
+        `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
         {
           Body:
             "\n\n Hello " +
             `${student_name}, \n \t You have successfully returned the book named "${book_name}" written by ${author_name} on ${tdyDate} \n\t Thank you !!!`,
           To: `+91${mobile_no}`, // Update to the correctly formatted phone number
-          From: "+12513090523", // Update with your Twilio phone number
+          From: twilioPhoneNumber, // Update with your Twilio phone number
         },
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(
-              "AC65b59524118996a67f4345ba9c34d262:a0c162d785c8c9e93bd19c3035c8ada1"
-            )}`,
+            Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
           },
         }
       );
 
-      console.log("Message sent:", response.data);
+      console.log("Message sent successfully");
     } catch (error) {
-      console.error("Error sending message:", error.response.data);
+      if (error.response) {
+        console.error("Error sending message:", error.response.data);
+      } else if (error.request) {
+        console.error("Error sending message: No response received");
+      } else {
+        console.error("Error sending message:", error.message);
+      }
     }
   };
 
@@ -62,7 +85,7 @@ const Borrowed = () => {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/post/${id}`);
+      await axios.delete(`http://localhost:8080/delete/${id}`);
       loadUsers();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -71,12 +94,11 @@ const Borrowed = () => {
 
   const updateUserData = async (userId) => {
     try {
-      const result = await axios.get(`http://localhost:8080/post/${userId}`);
-      const userData = Array.isArray(result.data)
-        ? result.data[0]
-        : result.data;
-      userData.date2 = tdyDate;
-      await loadUserData(userData, userId);
+      const response = await axios.get(`http://localhost:8080/get/${userId}`);
+      const userData = response.data;
+      const today = new Date();
+      userData.date2 = today.toISOString().split('T')[0];
+      loadUserData(userData, userId);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -85,17 +107,17 @@ const Borrowed = () => {
   const loadUserData = async (userData, userId) => {
     try {
       await axios.post("http://localhost:8080/postreturn", userData);
-      toast.success("RETURNED SUCCESS....");
-      await deleteUser(userId);
-      console.log("userdata" + userData.student_name);
-      await sendMessage(
+      sendMessage(
         userData.student_name,
         userData.author_name,
         userData.book_name,
         userData.mobile_no
       );
+      toast.success("RETURNED SUCCESS....",{position:"top-center"});
+      deleteUser(userId);
     } catch (error) {
       console.error("Error loading user data:", error);
+      // Optionally, handle the error here, such as displaying an error message to the user
     }
   };
 
@@ -147,18 +169,44 @@ const Borrowed = () => {
                     >
                       Renew
                     </Link>{" "}
-                    <Link
-                      onClick={() => updateUserData(user.id)}
+                    <Button
+                      onClick={() => handleReturnConfirmation(user.id)}
                       className="btn btn-outline-success"
+                      style={{backgroundColor:"white"}}
                     >
                       Return
-                    </Link>
+                    </Button>
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+
+      <Modal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        size="sm"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title style={{color:"green"}}>Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{color:"red"}}>Check the details of user</p>
+          <p>Student Name: {usercheck.student_name}</p>
+          <p>Reg No: {usercheck.reg_no}</p>
+          <p>Book Code: {usercheck.book_code}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setModalShow(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleReturn}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

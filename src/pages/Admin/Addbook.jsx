@@ -46,7 +46,7 @@ const Addbook = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: "Basic " + btoa(`${accountSid}:${authToken}`),
+            Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
           },
         }
       );
@@ -54,22 +54,22 @@ const Addbook = () => {
       console.log("Twilio Request Payload:", response.data);
 
       if (response.status === 201) {
-        toast.success("Verification code sent successfully.");
+        toast.success("Verification code sent successfully.",{position:"top-center"});
         setIsVerificationSent(true);
-        setUser({ ...user, verificationCode: code });
+        // setUser({ ...user, verificationCode: code });
       } else {
         toast.error("Failed to send verification code.");
       }
     } catch (error) {
       console.error("Error sending verification code:", error);
-      toast.error("Error sending verification code.");
+      toast.error("Error sending verification code.",{position:"top-center"});
     }
   };
 
   const sendMessage = async () => {
     try {
       const response = await axios.post(
-        `https://api.twilio.com/2010-04-01/Accounts/ACba3d6cf876aa71cefa9207ef7e23bc77/Messages.json`,
+        `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
         {
           Body:
             "\n\n Hello " +
@@ -80,9 +80,7 @@ const Addbook = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(
-              "ACba3d6cf876aa71cefa9207ef7e23bc77:838c131e8be663d25daf376b50f1434b"
-            )}`,
+            Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
           },
         }
       );
@@ -123,46 +121,47 @@ const Addbook = () => {
                               "http://localhost:8080/post",
                               user
                             );
-                            toast.success("Success.");
+                            toast.success("Success.",{position:"top-center"});
                             sendMessage();
                             navigate("/maindashboard-admin/borrowed");
                           } catch (error) {
                             console.error("Error submitting data:", error);
                           }
                         } else {
-                          toast.error("Mobile number is required.");
+                          toast.error("Mobile number is required.",{position:"top-center"});
                         }
                       } else {
-                        toast.error("Department is required.");
+                        toast.error("Department is required.",{position:"top-center"});
                       }
                     } else {
                       toast.error(
                         "Registration number must be between 12-13 characters or exactly 6 characters."
-                      );
+                        ,{position:"top-center"});
                     }
                   } else {
-                    toast.error("Student name must be 10 characters or less.");
+                    toast.error("Student name must be 10 characters or less.",{position:"top-center"});
                   }
                 } else {
-                  toast.error("Date 2 is required.");
+                  toast.error("Date 2 is required.",{position:"top-center"});
                 }
               } else {
-                toast.error("Date is required.");
+                toast.error("Date is required.",{position:"top-center"});
               }
             } else {
-              toast.error("Book code must be 6 characters.");
+              toast.error("Book code must be 6 characters.",{position:"top-center"});
             }
           } else {
-            toast.error("Author name is required.");
+            toast.error("Author name is required.",{position:"top-center"});
           }
         } else {
-          toast.error("Book name is required.");
+          toast.error("Book name is required.",{position:"top-center"});
         }
       } else {
-        toast.error("Verification code is incorrect.");
+        toast.error("Verification code is incorrect.",{position:"top-center"});
       }
     }
   };
+
   return (
     <div>
       <div className="addborrow">

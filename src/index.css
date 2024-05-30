@@ -6,7 +6,7 @@ body {
 }
 
 .navcss {
-  margin-left: 13px;
+  margin-left: 20px;
   border-radius: 10px;
   color: black;
   font-size: larger;
@@ -88,13 +88,7 @@ Caroudel.Item {
   position: relative;
 }
 
-.container2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-left: 130px;
-  margin-top: 40px;
-  border-radius: 20px;
-}
+
 svg {
   margin-left: 120px;
 }

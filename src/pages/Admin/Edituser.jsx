@@ -1,3 +1,4 @@
+// Edituser.jsx
 import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import axios from "axios";
@@ -8,6 +9,9 @@ import { toast } from "react-toastify";
 const Edituser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const accountSid = "AC65b59524118996a67f4345ba9c34d262";
+  const authToken = "a0c162d785c8c9e93bd19c3035c8ada1";
+  const twilioPhoneNumber = "+12513090523"; // Your Twilio phone number
   const [user, setUser] = useState({
     book_name: "",
     author_name: "",
@@ -54,25 +58,57 @@ const Edituser = () => {
         department &&
         mobile_no
       ) {
-        await axios.put(`http://localhost:8080/post/${id}`, user);
+        await axios.put(`http://localhost:8080/put/${id}`, user);
         toast.success("Updated");
+        sendMessage(
+          student_name,
+          author_name,
+          book_name,
+          mobile_no
+        );
         navigate("/maindashboard-admin");
       } else {
         toast.error("Fill all the required fields");
       }
     } catch (error) {
       console.error("Error submitting data:", error);
-      alert("Failed to update user. Please try again later.");
+      toast.error("Failed to update user. Please try again later.");
     }
   };
 
+  const sendMessage = async (student_name, author_name, book_name, mobile_no) => {
+    try {
+      const response = await axios.post(
+        `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+        {
+          Body:
+            "\n\n Hello " +
+            `${user.student_name}, \n \t Your renewal request is accepted....  "${user.book_name}" written by ${user.author_name} on ${user.date}  , and you to return the book on or before ${user.date2}\n\t Thank you !!!`,
+          To: `+91${user.mobile_no}`, // Update to the correctly formatted phone number
+          From: twilioPhoneNumber, // Update with your Twilio phone number
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
+          },
+        }
+      );
+
+      console.log("Message sent:", response.data);
+    } catch (error) {
+      console.error("Error sending message:", error.response.data);
+    }
+  };
+
+
   const loadUser = async () => {
     try {
-      const result = await axios.get(`http://localhost:8080/post/${id}`);
+      const result = await axios.get(`http://localhost:8080/get/${id}`);
       setUser(result.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
-      alert("Failed to fetch user data. Please try again later.");
+      toast.error("Failed to fetch user data. Please try again later.",{position:"top-center"});
     }
   };
 
@@ -144,9 +180,8 @@ const Edituser = () => {
                   name="student_name"
                   value={student_name}
                   onChange={onInputChange}
-               readOnly
-          
-          />
+                  readOnly
+                />
                 <label>Reg NO</label>
                 <input
                   type="number"
@@ -154,8 +189,7 @@ const Edituser = () => {
                   name="reg_no"
                   value={reg_no}
                   onChange={onInputChange}
-                  
-              readOnly
+                  readOnly
                 />
                 <label>Department</label>
                 <input

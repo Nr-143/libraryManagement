@@ -30,14 +30,14 @@ const Signup = () => {
     try {
       if (name && regno && (year<5 && year>0 )&& password && email) {
         await axios.post("http://localhost:8080/postlogin", loginfo);
-        toast.success("Successfully Updated ");
+        toast.success("Successfully Updated ",{position:"top-center"});
         navigate("/maindashboard-user");
       } else {
-        toast.error("Failed to proceess the data");
+        toast.error("Failed to proceess the data",{position:"top-center"});
       }
     } catch (error) {
       console.error("Error submitting data:", error);
-      toast.error("Failed to proceess the data");
+      toast.error("Failed to proceess the data",{position:"top-center"});
     }
   };
 

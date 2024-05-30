@@ -59,7 +59,7 @@ const About = () => {
                       <td>Newspaper Clipping Services</td>
                     </tr>
                     <tr>
-                      <td>Online Puublic Access Catalogue(OPAC)</td>
+                      <td>Online Public Access Catalogue(OPAC)</td>
                     </tr>
                   </table>
                 </div>

@@ -32,7 +32,7 @@ const Admainnav = () => {
             <Navbar.Collapse id="navbarScroll">
               <Nav
                 className="me-auto my- my-lg-1 "
-                style={{ marginLeft: "-120px" }}
+                style={{ marginLeft: "-250px" }}
                 navbarScroll
               >
                 <Nav.Link href="/maindashboard-admin" className="navcss one">
@@ -48,35 +48,19 @@ const Admainnav = () => {
                 >
                   Books
                 </Nav.Link>
+                  
+                <Nav.Link href="/maindashboard-admin/admincontact2" className="navcss one" style={{marginLeft:"-2px"}}>
+                  Contact
+                </Nav.Link>
 
-                <Dropdown>
-                  <Dropdown.Toggle
-                    id="dropdown-basic"
-                    style={{
-                      border: "1px solid transparent",
-                      backgroundColor: "transparent",
-                      color: "black",
-                      fontSize: "18px",
-                      marginTop: "3px",
-                    }}
-                  >
-                    Update
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="/maindashboard-admin/adminresource">
-                      Resource
-                    </Dropdown.Item>
-                    <Dropdown.Item href="/maindashboard-admin/admincontact2">
-                      Contact
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-
+                <Nav.Link href="/maindashboard-admin/adminresource" className="navcss one" style={{marginLeft:"-2px"}}>
+                  Resources
+                </Nav.Link>
+                
                 <Nav.Link
                   href="/"
                   className="navcss"
-                  style={{ background: "red", color: "white", height: "40px" }}
+                  style={{ background: "red", color: "white", height: "40px"  }}
                 >
                   LOGOUT
                 </Nav.Link>

@@ -30,7 +30,7 @@ const TimingContact2 = () => {
         toast.success("Data submitted successfully");
         navigate("/maindashboard-admin");
       } else {
-        toast.error("Fill all the required fields");
+        toast.error("Fill all the required fields",{position:"top-center"});
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -41,7 +41,9 @@ const TimingContact2 = () => {
     try {
       const result = await axios.get(`http://localhost:8080/getcontact`);
       // Update the state with the fetched data
-      setContact(result.data[0]); // Assuming you only want the first item
+      if (result.data.length > 0) {
+        setContact(result.data[0]); // Assuming you only want the first item
+      }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -54,6 +56,7 @@ const TimingContact2 = () => {
   return (
     <div>
       <Admainnav />
+   
       <div
         className="resUpdate"
         style={{
@@ -170,6 +173,7 @@ const TimingContact2 = () => {
           </Button>
         </Form>
       </div>
+    
     </div>
   );
 };

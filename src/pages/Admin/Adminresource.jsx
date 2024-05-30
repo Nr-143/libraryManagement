@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 const Adminresource = () => {
+  
   let navigate = useNavigate();
   const [formData, setFormData] = useState({
     books: "",
@@ -39,10 +40,10 @@ const Adminresource = () => {
         news
       ) {
         await axios.post("http://localhost:8080/postres", formData);
-        toast.success("Data submitted successfully");
+        toast.success("Data submitted successfully",{position:"top-center"});
         navigate("/maindashboard-admin");
       } else {
-        toast.error("Fill all the required fields");
+        toast.error("Fill all the required fields",{position:"top-center"});
       }
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -53,16 +54,17 @@ const Adminresource = () => {
     try {
       const result = await axios.get(`http://localhost:8080/getres`);
       // Update the state with the fetched data
-      setFormData(result.data[0]); // Assuming you only want the first item
+      if (result.data && result.data.length > 0) {
+        setFormData(result.data[0]); // Assuming you only want the first item
+      }
     } catch (error) {
-      console.error("Error fetching user data:");
+      console.error("Error fetching user data:", error);
     }
   };
 
   useEffect(() => {
     loadUser();
   }, []);
-
   return (
     <div>
       <Admainnav />

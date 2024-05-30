@@ -9,6 +9,10 @@ import Admainnav from "./Admainnav";
 import Loginchart from "./Loginchart";
 
 const Adminuser = () => {
+  const accountSid = "AC65b59524118996a67f4345ba9c34d262";
+  const authToken = "a0c162d785c8c9e93bd19c3035c8ada1";
+  const twilioPhoneNumber = "+12513090523"; // Your Twilio phone number
+
   const currentDate = new Date();
   const date1 = currentDate.getDate();
   const month = currentDate.getMonth() + 1;
@@ -35,6 +39,37 @@ const Adminuser = () => {
     loadUsers();
   }, []);
 
+  const sendMessage = async (student_name, author_name, book_name, mobile_no,date,date2) => {
+    try {
+      const response = await axios.post(
+        `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+        {
+          Body:
+            "\n\n Hello " +
+            `${student_name}, \n \t Please remember to return the book "${book_name}" written by ${author_name} on ${date} \n\t  , "Due date has passed" ${date2}"  we kindly ask that you return it to the library at your as soon as possible .Thank you !!!`,
+          To: `+91${mobile_no}`, // Update to the correctly formatted phone number
+          From: twilioPhoneNumber, // Update with your Twilio phone number
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`,
+          },
+        }
+      );
+
+      console.log("Message sent successfully");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error sending message:", error.response.data);
+      } else if (error.request) {
+        console.error("Error sending message: No response received");
+      } else {
+        console.error("Error sending message:", error.message);
+      }
+    }
+  };
+
   const loadUsers = async () => {
     try {
       const result = await axios.get("http://localhost:8080/get");
@@ -51,7 +86,7 @@ const Adminuser = () => {
     let bendingReturns = 0;
     data.forEach((user) => {
       if (user.date2 < tdyDate) {
-        console.log(tdyDate);
+        sendMessage(user.student_name, user.author_name, user.book_name, user.mobile_no, user.date2, user.date)
         bendingReturns++;
       }
     });
@@ -188,7 +223,7 @@ const Adminuser = () => {
                 marginTop: "10px",
               }}
             >
-              <Card.Text>To be Returned :</Card.Text>
+              <Card.Text>Bending Return's :</Card.Text>
               <h4 style={{ color: "red" }}>{Bending}</h4>
             </Card.Body>
           </Card>
@@ -242,7 +277,7 @@ const Adminuser = () => {
         </Row>
       </div>
 
-      <h1>kkk</h1>
+      
     </>
   );
 };
