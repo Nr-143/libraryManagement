@@ -9,9 +9,9 @@ import Admainnav from "./Admainnav";
 import Loginchart from "./Loginchart";
 
 const Adminuser = () => {
-  const accountSid = "AC65b59524118996a67f4345ba9c34d262";
-  const authToken = "a0c162d785c8c9e93bd19c3035c8ada1";
-  const twilioPhoneNumber = "+12513090523"; // Your Twilio phone number
+  const accountSid =process.env.SID;
+  const authToken = process.env.TOKEN;
+  const twilioPhoneNumber =process.env.NUMBER; 
 
   const currentDate = new Date();
   const date1 = currentDate.getDate();
